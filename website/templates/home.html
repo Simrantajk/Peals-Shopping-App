@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Category Dropdown -->
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <form action="/home" method="GET" class="form-inline">
+                <label for="category" class="mr-2">Select a category:</label>
+                <select name="category" id="category" class="form-control mr-2">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Catalog -->
+    <h2 class="mb-4 text-center">Product Catalog</h2>
+    <div class="row">
+        {% for product in products %}
+        <!-- Check if the product belongs to the selected category (if any) -->
+        {% if not category or product.types == category %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm rounded-3">
+                <!-- Use a single image path for all products -->
+                <img src="{{ product.image }}" class="card-img-top rounded-top" alt="{{ product.product_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.product_name }}</h5>
+                    <p class="card-text">Price: ${{ product.price }}</p>
+                    <p class="card-text">Size: {{ product.size }}</p>
+                    <p class="card-text">Type: {{ product.types }}</p>
+                </div>
+                <div class="card-footer">
+                    <!-- Add to Cart Button -->
+                    <form action="/home" method="POST">
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        <button type="submit" class="btn btn-primary btn-block fw-bold rounded-0">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

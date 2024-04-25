@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<style>
+    body {
+      background-image: url('{{ url_for('static', filename='back.jpg') }}');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed; /* Keeps the background image fixed while scrolling */
+      height: 100vh; /* Ensure full height of the viewport */
+      margin: 0; /* Remove default margin */
+      padding: 0; /* Remove default padding */
+    }
+  </style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Order History</h2>
+                    {% if orders %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Delivery Address</th>
+                                        <th scope="col">Payment Method</th>
+                                        <th scope="col">Customer Name</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                        <tr>
+                                            
+                                            <td>{{ order.date }}</td>
+                                            <td>{{ order.delivery_address }}</td>
+                                            <td>{{ order.payment }}</td>
+                                            <td>{{ order.customer_name }}</td>
+                                            
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-center">No orders found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
